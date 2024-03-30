@@ -147,6 +147,28 @@ function* generateQandAs(difficulty: number, operand: Operand, length = 10) {
         return { q, a: `${sum}` }
       }
     }
+    case '-': {
+      while (length-- > 0) {
+        yield getRandomSubtractionProblem()
+      }
+
+      function getRandomSubtractionProblem() {
+        const addend1 = getValidProblemPart(difficulty, operand)
+        const addend2 = getValidProblemPart(difficulty, operand)
+        // do the math in reverse to get the right values within difficulty parameters
+        const sum = addend1 + addend2
+
+        const q = `${sum} - ${addend1}`
+
+        if (questions[q]) {
+          return getRandomSubtractionProblem()
+        }
+
+        questions[q] = 1
+
+        return { q, a: `${addend2}` }
+      }
+    }
   }
 }
 
