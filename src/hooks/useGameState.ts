@@ -169,64 +169,181 @@ function* generateQandAs(difficulty: number, operand: Operand, length = 10) {
         return { q, a: `${addend2}` }
       }
     }
+    case 'x': {
+      while (length-- > 0) {
+        yield getRandomMultiplicationProblem()
+      }
+
+      function getRandomMultiplicationProblem() {
+        const switcher = Math.random() > 0.5
+
+        const multiplier1 = getValidProblemPart(difficulty, operand, switcher ? 2 : 1)
+        const multiplier2 = getValidProblemPart(difficulty, operand, switcher ? 1 : 2)
+
+        const product = multiplier1 * multiplier2
+
+        const q = `${multiplier1} × ${multiplier2}`
+
+        if (questions[q]) {
+          return getRandomMultiplicationProblem()
+        }
+
+        questions[q] = 1
+
+        return { q, a: `${product}` }
+      }
+    }
+    case '/': {
+      while (length-- > 0) {
+        yield getRandomDivisionProblem()
+      }
+
+      function getRandomDivisionProblem() {
+        const switcher = Math.random() > 0.5
+
+        const multiplier1 = getValidProblemPart(difficulty, operand, switcher ? 2 : 1)
+        const multiplier2 = getValidProblemPart(difficulty, operand, switcher ? 1 : 2)
+
+        const product = multiplier1 * multiplier2
+
+        const q = `${product} ÷ ${multiplier1}`
+
+        if (questions[q]) {
+          return getRandomDivisionProblem()
+        }
+
+        questions[q] = 1
+
+        return { q, a: `${multiplier2}` }
+      }
+    }
   }
 }
 
-function getValidProblemPart(difficulty: number, operand: Operand) {
-  const [min, max] = difficulties[difficulty][operand]
-  const problemPart = Math.floor(Math.random() * (max + 1) - min) + min
+function getValidProblemPart(difficulty: number, operand: Operand, part?: number) {
+  switch (operand) {
+    case '+':
+    case '-': {
+      const [min, max] = difficulties[difficulty][operand]
+      const problemPart = Math.floor(Math.random() * (max + 1 - min)) + min
 
-  return problemPart
+      return problemPart
+    }
+    case 'x':
+    case '/': {
+      if (!part) {
+        console.error('no part supplied')
+        return 0
+      }
+
+      const [min, max] = difficulties[difficulty][operand][part - 1]
+      const problemPart = Math.floor(Math.random() * (max + 1 - min)) + min
+
+      if (problemPart === 0) {
+        console.log(min, max, difficulty, operand, part)
+      }
+
+      return problemPart
+    }
+  }
 }
 
 const difficulties = [
   {
     '+': [0, 9],
     '-': [0, 9],
-    x: [0, 5],
-    '/': [0, 5],
+    x: [
+      [0, 5],
+      [0, 5],
+    ],
+    '/': [
+      [1, 5],
+      [1, 5],
+    ],
   },
   {
     '+': [10, 20],
     '-': [10, 20],
-    x: [0, 9],
-    '/': [0, 9],
+    x: [
+      [0, 9],
+      [0, 9],
+    ],
+    '/': [
+      [1, 9],
+      [1, 9],
+    ],
   },
   {
     '+': [21, 50],
     '-': [21, 50],
-    x: [10, 15],
-    '/': [10, 15],
+    x: [
+      [10, 20],
+      [2, 9],
+    ],
+    '/': [
+      [10, 20],
+      [2, 9],
+    ],
   },
   {
     '+': [51, 100],
     '-': [51, 100],
-    x: [16, 30],
-    '/': [16, 30],
+    x: [
+      [10, 20],
+      [10, 20],
+    ],
+    '/': [
+      [10, 20],
+      [10, 20],
+    ],
   },
   {
     '+': [101, 200],
     '-': [101, 200],
-    x: [31, 100],
-    '/': [31, 100],
+    x: [
+      [20, 99],
+      [2, 9],
+    ],
+    '/': [
+      [20, 99],
+      [2, 9],
+    ],
   },
   {
     '+': [201, 500],
     '-': [201, 500],
-    x: [101, 500],
-    '/': [101, 500],
+    x: [
+      [20, 99],
+      [10, 99],
+    ],
+    '/': [
+      [20, 99],
+      [10, 99],
+    ],
   },
   {
     '+': [501, 1000],
     '-': [501, 1000],
-    x: [501, 1000],
-    '/': [501, 1000],
+    x: [
+      [100, 999],
+      [2, 99],
+    ],
+    '/': [
+      [100, 999],
+      [2, 99],
+    ],
   },
   {
     '+': [1001, 10000],
     '-': [1001, 10000],
-    x: [1001, 10000],
-    '/': [1001, 10000],
+    x: [
+      [10, 999],
+      [10, 999],
+    ],
+    '/': [
+      [10, 999],
+      [10, 999],
+    ],
   },
 ]
 

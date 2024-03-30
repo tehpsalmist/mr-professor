@@ -117,9 +117,6 @@ export const App = ({ className = '', ...props }: AppProps) => {
                     <path d="M272 96a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 320a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 288c17.7 0 32-14.3 32-32s-14.3-32-32-32H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H400z" />
                   </svg>
                 </button>
-                <div className="absolute inset-y-0 right-0 flex w-1/2 items-end justify-center bg-gray-300/35 text-2xl">
-                  Coming Soon
-                </div>
               </div>
               <h3 className="mb-2 mt-6 text-center">Level</h3>
               <div className="grid grid-cols-4 gap-2">
