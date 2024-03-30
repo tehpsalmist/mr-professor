@@ -53,7 +53,11 @@ export const App = ({ className = '', ...props }: AppProps) => {
         <span className="ml-auto">{display}</span>
         {result[0] && (
           <span key={result[0]} className={`animate-fadeout flex-center absolute inset-y-0 left-0 m-4 h-12 w-12`}>
-            {result[1] ? <CheckIcon className="text-green-500" /> : <XMarkIcon className="text-red-500" />}
+            {result[1] ? (
+              <CheckIcon className="h-full w-full text-green-500" />
+            ) : (
+              <XMarkIcon className="h-full w-full text-red-500" />
+            )}
           </span>
         )}
       </div>
