@@ -1,5 +1,10 @@
 @tailwind base;
 
+html {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
 h1 {
   @apply text-4xl font-bold;
 }
