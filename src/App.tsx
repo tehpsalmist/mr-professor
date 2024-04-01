@@ -1,5 +1,5 @@
 import React, { ComponentProps, useState } from 'react'
-import { NumPad } from './NumPad'
+import { NumPad } from './components/NumPad'
 import CheckIcon from '@heroicons/react/24/outline/CheckIcon'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import Bars3Icon from '@heroicons/react/24/outline/Bars3Icon'
@@ -9,7 +9,12 @@ import SparklesIcon from '@heroicons/react/24/outline/SparklesIcon'
 import RocketIcon from '@heroicons/react/24/outline/RocketLaunchIcon'
 import { Button, Modal } from '@8thday/react'
 import { useGameState } from './hooks/useGameState'
-import { Score } from './Score'
+import { Score } from './components/Score'
+import { AdditionIcon } from './components/AdditionIcon'
+import { SubtractionIcon } from './components/SubtractionIcon'
+import { MultiplicationIcon } from './components/MultiplicationIcon'
+import { DivisionIcon } from './components/DivisionIcon'
+import { GameSettings } from './components/GameSettings'
 
 const levels = Array(8).fill(1)
 
@@ -73,7 +78,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
         }}
       />
       <button
-        className="absolute right-2 top-2 z-10 rounded border p-1"
+        className="absolute right-2 top-2 z-10 rounded border bg-white p-1 text-primary-500"
         onClick={() => {
           if (gameMode === 'playing') changeGameMode('paused')
         }}
@@ -84,41 +89,34 @@ export const App = ({ className = '', ...props }: AppProps) => {
         <Modal className="h-screenD relative w-md" onClose={() => {}}>
           {gameMode === 'setup' && (
             <div className="flex h-full flex-col">
+              <h3 className="mb-2 text-center text-gray-600">Operator</h3>
               <div className="relative grid grid-cols-4 gap-2">
                 <button
                   className={`${operand === '+' ? 'bg-primary-500 text-white' : 'text-primary-500'} flex-center aspect-square h-full w-full rounded shadow-md`}
                   onClick={() => updateGameSettings(difficulty, '+')}
                 >
-                  <svg className="h-12 w-12 fill-current" viewBox="0 0 448 512">
-                    <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                  </svg>
+                  <AdditionIcon className="h-12 w-12" />
                 </button>
                 <button
                   className={`${operand === '-' ? 'bg-primary-500 text-white' : 'text-primary-500'} flex-center aspect-square h-full w-full rounded shadow-md`}
                   onClick={() => updateGameSettings(difficulty, '-')}
                 >
-                  <svg className="h-12 w-12 fill-current" viewBox="0 0 448 512">
-                    <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
-                  </svg>
+                  <SubtractionIcon className="h-12 w-12" />
                 </button>
                 <button
                   className={`${operand === 'x' ? 'bg-primary-500 text-white' : 'text-primary-500'} flex-center aspect-square h-full w-full rounded shadow-md`}
                   onClick={() => updateGameSettings(difficulty, 'x')}
                 >
-                  <svg className="h-12 w-12 fill-current" viewBox="0 0 384 512">
-                    <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                  </svg>
+                  <MultiplicationIcon className="h-12 w-12" />
                 </button>
                 <button
                   className={`${operand === '/' ? 'bg-primary-500 text-white' : 'text-primary-500'} flex-center aspect-square h-full w-full rounded shadow-md`}
                   onClick={() => updateGameSettings(difficulty, '/')}
                 >
-                  <svg className="h-12 w-12 fill-current" viewBox="0 0 448 512">
-                    <path d="M272 96a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 320a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM400 288c17.7 0 32-14.3 32-32s-14.3-32-32-32H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H400z" />
-                  </svg>
+                  <DivisionIcon className="h-12 w-12" />
                 </button>
               </div>
-              <h3 className="mb-2 mt-6 text-center">Level</h3>
+              <h3 className="mb-2 mt-6 text-center text-gray-600">Level</h3>
               <div className="grid grid-cols-4 gap-2">
                 {levels.map((n, i) => (
                   <button
@@ -141,6 +139,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
           )}
           {gameMode === 'paused' && (
             <div className="flex h-full flex-col">
+              <GameSettings className="mb-4" difficulty={difficulty} operand={operand} />
               <Score className="mb-auto" correct={correct} wrong={wrong} />
               <div className="flex-center mb-4 gap-4">
                 <Button
@@ -162,6 +161,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
           )}
           {gameMode === 'done' && (
             <div className="flex h-full flex-col">
+              <GameSettings className="mb-4" difficulty={difficulty} operand={operand} />
               <Score correct={correct} wrong={wrong} />
               <span className="my-auto text-center text-xl">{finalMessage}</span>
               <div className="flex-center mb-4 gap-4">

@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import { useInterval } from '@8thday/react'
+import { Operand } from '../utils'
 
-export type Operand = '+' | '-' | 'x' | '/'
 export type GameMode = 'setup' | 'playing' | 'paused' | 'done'
 
 export const useGameState = () => {
