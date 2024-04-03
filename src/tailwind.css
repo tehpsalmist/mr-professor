@@ -41,6 +41,34 @@ em {
 
 @tailwind utilities;
 
+@layer components {
+  .game-grid {
+    display: grid;
+    grid-template:
+      'progress ' theme('spacing.2')
+      'display  ' auto
+      'answer   ' auto
+      'numberpad' 1fr
+      / auto;
+  }
+
+  .progress {
+    grid-area: progress;
+  }
+
+  .display {
+    grid-area: display;
+  }
+
+  .answer {
+    grid-area: answer;
+  }
+
+  .numberpad {
+    grid-area: numberpad;
+  }
+}
+
 @layer utilities {
   .flex-center {
     @apply flex items-center justify-center;

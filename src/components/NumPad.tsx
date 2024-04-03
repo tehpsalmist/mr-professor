@@ -10,7 +10,7 @@ export interface NumPadProps extends Omit<ComponentProps<'div'>, 'onChange' | 'v
 
 export const NumPad = ({ className = '', value, onChange, onEnter, ...props }: NumPadProps) => {
   return (
-    <div className={`${className} grid aspect-[3/4] grid-cols-3 gap-2 p-2`} {...props}>
+    <div className={`${className} grid grid-cols-3 gap-2 p-2`} {...props}>
       <NumPadButton onClick={(e) => onChange(`${value}7`)}>7</NumPadButton>
       <NumPadButton onClick={(e) => onChange(`${value}8`)}>8</NumPadButton>
       <NumPadButton onClick={(e) => onChange(`${value}9`)}>9</NumPadButton>

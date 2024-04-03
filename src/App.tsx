@@ -39,8 +39,8 @@ export const App = ({ className = '', ...props }: AppProps) => {
   } = useGameState()
 
   return (
-    <main className={`${className} min-h-screenD relative mx-auto flex w-full max-w-md flex-col`} {...props}>
-      <div className="flex h-2 w-full">
+    <main className={`${className} min-h-screenD game-grid relative mx-auto w-full max-w-md flex-col`} {...props}>
+      <div className="progress flex h-2 w-full">
         <div
           className="h-full bg-red-500 transition-all duration-500"
           style={{ width: `${((wrong / totalCount) * 100).toFixed(3)}%` }}
@@ -50,12 +50,12 @@ export const App = ({ className = '', ...props }: AppProps) => {
           style={{ width: `${((correct / totalCount) * 100).toFixed(3)}%` }}
         ></div>
       </div>
-      <div className="flex w-full overflow-x-auto whitespace-nowrap text-nowrap p-4 text-5xl text-gray-500">
+      <div className="display flex w-full overflow-x-auto overflow-y-hidden whitespace-nowrap text-nowrap p-4 pb-0 text-5xl text-gray-500">
         <span>{q} =&nbsp;</span>
         <span className="text-red-500/25">{submission}</span>
       </div>
-      <div className="relative flex w-full p-4 text-5xl text-primary-600">
-        <span className="ml-auto">{display}</span>
+      <div className="answer relative flex w-full px-4 text-5xl text-primary-600">
+        <span className="ml-auto">{display || <>&nbsp;</>}</span>
         {result[0] && (
           <span key={result[0]} className={`animate-fadeout flex-center absolute inset-y-0 left-0 m-4 h-12 w-12`}>
             {result[1] ? (
@@ -67,7 +67,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
         )}
       </div>
       <NumPad
-        className="sticky bottom-0 mx-auto mt-auto w-full max-w-md"
+        className="numberpad mx-auto h-full max-h-lg w-full max-w-md place-self-end"
         value={display}
         onChange={setDisplay}
         onEnter={(v) => {
