@@ -39,7 +39,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
   } = useGameState()
 
   return (
-    <main className={`${className} min-h-screenD game-grid relative mx-auto w-full max-w-md flex-col`} {...props}>
+    <main className={`${className} game-grid relative mx-auto min-h-screenD w-full max-w-md flex-col`} {...props}>
       <div className="progress flex h-2 w-full">
         <div
           className="h-full bg-red-500 transition-all duration-500"
@@ -57,7 +57,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
       <div className="answer relative flex w-full px-4 text-5xl text-primary-600">
         <span className="ml-auto">{display || <>&nbsp;</>}</span>
         {result[0] && (
-          <span key={result[0]} className={`animate-fadeout flex-center absolute inset-y-0 left-0 m-4 h-12 w-12`}>
+          <span key={result[0]} className={`flex-center absolute inset-y-0 left-0 m-4 h-12 w-12 animate-fadeout`}>
             {result[1] ? (
               <CheckIcon className="h-full w-full text-green-500" />
             ) : (
@@ -66,17 +66,19 @@ export const App = ({ className = '', ...props }: AppProps) => {
           </span>
         )}
       </div>
-      <NumPad
-        className="numberpad mx-auto h-full max-h-lg w-full max-w-md place-self-end"
-        value={display}
-        onChange={setDisplay}
-        onEnter={(v) => {
-          if (v) {
-            submitAnswer(v)
-            setDisplay('')
-          }
-        }}
-      />
+      {gameMode === 'playing' && (
+        <NumPad
+          className="numberpad mx-auto h-full max-h-lg w-full max-w-md place-self-end"
+          value={display}
+          onChange={setDisplay}
+          onEnter={(v) => {
+            if (v) {
+              submitAnswer(v)
+              setDisplay('')
+            }
+          }}
+        />
+      )}
       <button
         className="absolute right-2 top-2 z-10 rounded border bg-white p-1 text-primary-500"
         onClick={() => {
@@ -86,7 +88,7 @@ export const App = ({ className = '', ...props }: AppProps) => {
         <Bars3Icon className="h-5 w-5" />
       </button>
       {gameMode !== 'playing' && (
-        <Modal className="h-screenD relative w-md" onClose={() => {}}>
+        <Modal className="relative h-screenD w-md" onClose={() => {}}>
           {gameMode === 'setup' && (
             <div className="flex h-full flex-col">
               <h3 className="mb-2 text-center text-gray-600">Operator</h3>
